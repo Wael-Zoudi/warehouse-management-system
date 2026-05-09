@@ -1,0 +1,80 @@
+<div class="page-card">
+
+  <h2>Benutzerverwaltung</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Benutzername</th>
+        <th>Rolle</th>
+        <th>Freigegeben</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let user of users">
+
+        <td>{{ user.id }}</td>
+
+        <td>{{ user.username }}</td>
+
+        <td>
+          <span *ngIf="user.role === 'Admin'">
+            Admin
+          </span>
+
+          <span *ngIf="user.role !== 'Admin'">
+            User
+          </span>
+        </td>
+
+        <td>
+          <span *ngIf="user.isApproved">
+            ✅ Ja
+          </span>
+
+          <span *ngIf="!user.isApproved">
+            ❌ Nein
+          </span>
+        </td>
+
+        <td class="actions">
+
+          <!-- Approve -->
+          <button
+            class="approve-btn"
+            *ngIf="!user.isApproved"
+            (click)="approveUser(user)">
+
+            Freigeben
+          </button>
+
+          <!-- Make Admin -->
+          <button
+            class="admin-btn"
+            *ngIf="user.role !== 'Admin'"
+            (click)="makeAdmin(user)">
+
+            Admin machen
+          </button>
+
+          <!-- Delete -->
+          <button
+            class="delete-btn"
+            *ngIf="user.role !== 'Admin'"
+            (click)="rejectUser(user)">
+
+            Löschen
+          </button>
+
+        </td>
+
+      </tr>
+
+    </tbody>
+  </table>
+
+</div>

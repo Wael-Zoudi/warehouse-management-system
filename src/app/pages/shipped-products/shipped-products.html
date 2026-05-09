@@ -1,0 +1,59 @@
+<div class="page-card">
+  <h2>Versendete Produkte</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Produktname</th>
+        <th>Code</th>
+        <th>Amazon Nummer</th>
+        <th>Gesendete Menge</th>
+        <th>Versanddatum</th>
+        <th>Sendungsnummer</th>
+        <th>Geliefert</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of filteredShippedProducts">
+        <td>{{ p.name }}</td>
+        <td>{{ p.code }}</td>
+        <td>{{ p.amazonNumber }}</td>
+        <td>{{ p.quantity }}</td>
+        <td>{{ p.shippedDate | date:'yyyy-MM-dd' }}</td>
+        <td>{{ p.shipmentNumber }}</td>
+        <td>{{ p.delivered ? 'Ja' : 'Nein' }}</td>
+        <td>
+          <button class="edit-btn" (click)="toggleDelivered(p)">
+            {{ p.delivered ? 'Als nicht geliefert' : 'Als geliefert' }}
+          </button>
+
+          <button class="delete-btn" (click)="deleteProduct(p)">
+            Löschen
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="filteredShippedProducts.length === 0">
+        <td colspan="8">Keine versendeten Produkte gefunden.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cards-grid">
+    <div class="form-card">
+      <h2>Suche</h2>
+
+      <div class="form-container">
+        <div class="form-group">
+          <label>Suche nach Produktname, Code, Amazon Nummer oder Sendungsnummer</label>
+          <input
+            type="text"
+            [(ngModel)]="searchText"
+            placeholder="Suchbegriff eingeben">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

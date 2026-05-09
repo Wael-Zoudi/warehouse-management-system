@@ -1,0 +1,162 @@
+:host {
+  display: block;
+  color: #16325c;
+}
+
+h2 {
+  margin: 0 0 18px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #17356a;
+}
+
+hr {
+  display: none;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+th,
+td {
+  border: 1px solid #d7dee8;
+  padding: 16px 14px;
+  text-align: center;
+}
+
+th {
+  background-color: #194b8c;
+  color: white;
+  font-weight: 700;
+}
+
+td {
+  background: #f9fbfd;
+}
+
+button {
+  padding: 10px 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.save-btn {
+  background-color: #1f9d55;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #7b8794;
+  color: white;
+}
+
+.edit-btn {
+  background-color: #1f6feb;
+  color: white;
+  margin-right: 8px;
+}
+
+.delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.page-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(6px);
+  border-radius: 0 0 22px 22px;
+  padding: 26px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 22px;
+}
+
+.form-card {
+  background: rgba(255, 255, 255, 0.82);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.form-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #17356a;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+  padding: 12px 14px;
+  font-size: 14px;
+  border: 1px solid #d4dbe5;
+  border-radius: 10px;
+  background: #fff;
+  color: #16325c;
+  outline: none;
+}
+
+input:focus {
+  border-color: #3994ff;
+  box-shadow: 0 0 0 3px rgba(57, 148, 255, 0.16);
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.helper-text {
+  margin-top: 10px;
+  color: #486284;
+  font-size: 14px;
+}
+
+@media (max-width: 960px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  th,
+  td {
+    font-size: 14px;
+    padding: 12px 8px;
+  }
+}

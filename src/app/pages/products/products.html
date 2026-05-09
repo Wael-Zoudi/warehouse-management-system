@@ -1,0 +1,117 @@
+<div class="page-card">
+  <h2>Produktliste</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Produktname</th>
+        <th>Code</th>
+        <th>Amazon Nummer</th>
+        <th>Menge</th>
+        <th>Lagerort</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of filteredProducts">
+        <td>{{ p.name }}</td>
+        <td>{{ p.code }}</td>
+        <td>{{ p.amazonNumber }}</td>
+        <td>{{ p.quantity }}</td>
+        <td>{{ p.storageLocation }}</td>
+        <td>
+          <button class="edit-btn" (click)="editProduct(p)">Bearbeiten</button>
+          <button class="delete-btn" (click)="deleteProduct(p)">Löschen</button>
+          <button class="ship-btn" (click)="prepareShipping(p)">Versenden</button>
+        </td>
+      </tr>
+
+      <tr *ngIf="filteredProducts.length === 0">
+        <td colspan="6">Keine Produkte gefunden.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="cards-grid">
+    <div class="form-card">
+      <h2>Produktsuche</h2>
+
+      <div class="form-container">
+        <div class="form-group">
+          <label>Suche nach Produktname, Code, Amazon Nummer oder Lagerort</label>
+          <input type="text" [(ngModel)]="searchText" placeholder="Suchbegriff eingeben">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2>{{ editIndex === null ? 'Produkt hinzufügen' : 'Produkt bearbeiten' }}</h2>
+
+      <div class="form-container">
+        <div class="form-group">
+          <label>Produktname</label>
+          <input type="text" [(ngModel)]="newProduct.name">
+        </div>
+
+        <div class="form-group">
+          <label>Code</label>
+          <input type="text" [(ngModel)]="newProduct.code">
+        </div>
+
+        <div class="form-group">
+          <label>Amazon Nummer</label>
+          <input type="text" [(ngModel)]="newProduct.amazonNumber">
+        </div>
+
+        <div class="form-group">
+          <label>Menge</label>
+          <input type="number" [(ngModel)]="newProduct.quantity">
+        </div>
+
+        <div class="form-group">
+          <label>Lagerort</label>
+          <input type="text" [(ngModel)]="newProduct.storageLocation">
+        </div>
+
+        <div class="button-row">
+          <button class="save-btn" (click)="addOrUpdateProduct()">
+            {{ editIndex === null ? 'Produkt hinzufügen' : 'Änderungen speichern' }}
+          </button>
+
+          <button class="cancel-btn" (click)="resetForm()">Zurücksetzen</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <h2>Produkt versenden</h2>
+
+      <div class="form-container" *ngIf="shippingIndex !== null">
+        <div class="form-group">
+          <label>Zu versendende Menge</label>
+          <input type="number" [(ngModel)]="shippingData.quantity">
+        </div>
+
+        <div class="form-group">
+          <label>Versanddatum</label>
+          <input type="date" [(ngModel)]="shippingData.shippedDate">
+        </div>
+
+        <div class="form-group">
+          <label>Sendungsnummer</label>
+          <input type="text" [(ngModel)]="shippingData.shipmentNumber">
+        </div>
+
+        <div class="button-row">
+          <button class="ship-btn" (click)="confirmShipping()">Versand bestätigen</button>
+          <button class="cancel-btn" (click)="cancelShipping()">Abbrechen</button>
+        </div>
+      </div>
+
+      <p class="helper-text" *ngIf="shippingIndex === null">
+        Bitte zuerst in der Tabelle auf "Versenden" klicken.
+      </p>
+    </div>
+  </div>
+</div>
