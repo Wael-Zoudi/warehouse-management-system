@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { Dashboard } from './pages/dashboard/dashboard';
 import { Products } from './pages/products/products';
 import { ShippedProducts } from './pages/shipped-products/shipped-products';
 import { Login } from './pages/login/login';
@@ -14,7 +15,8 @@ export const routes: Routes = [
   { path: 'login', component: Login, canActivate: [guestGuard] },
   { path: 'register', component: Register, canActivate: [guestGuard] },
 
-  { path: '', component: Products, canActivate: [authGuard] },
+  { path: '', component: Dashboard, canActivate: [authGuard] },
+  { path: 'products', component: Products, canActivate: [authGuard] },
   { path: 'shipped-products', component: ShippedProducts, canActivate: [authGuard] },
 
   {

@@ -1,0 +1,41 @@
+<div class="dashboard-page">
+  <h2>Dashboard</h2>
+
+  <div class="cards-grid">
+    <div class="dashboard-card">
+      <h3>Produkte</h3>
+      <p>{{ totalProducts }}</p>
+      <span>Gesamte Produktarten</span>
+    </div>
+
+    <div class="dashboard-card">
+      <h3>Gesamtmenge</h3>
+      <p>{{ totalQuantity }}</p>
+      <span>Stück im Lager</span>
+    </div>
+
+    <div class="dashboard-card warning">
+      <h3>Niedriger Bestand</h3>
+      <p>{{ lowStockProducts }}</p>
+      <span>Produkte mit Menge ≤ 5</span>
+    </div>
+
+    <div class="dashboard-card">
+      <h3>Versendungen</h3>
+      <p>{{ totalShipments }}</p>
+      <span>Gesendete Produkte</span>
+    </div>
+
+    <div class="dashboard-card warning">
+      <h3>Unterwegs</h3>
+      <p>{{ pendingDeliveries }}</p>
+      <span>Noch nicht geliefert</span>
+    </div>
+
+    <div class="dashboard-card admin" *ngIf="authApi.getUser()?.role === 'Admin'">
+      <h3>Freigaben</h3>
+      <p>{{ pendingUsers }}</p>
+      <span>Wartende Benutzer</span>
+    </div>
+  </div>
+</div>

@@ -1,47 +1,29 @@
 <div class="app-shell">
-
   <div class="top-bar">
-
     <h1>Warenlager-Verwaltungssystem</h1>
 
     <div class="nav-buttons" *ngIf="authApi.isLoggedIn()">
+      <a [routerLink]="['/']" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+        Dashboard
+      </a>
 
-      <!-- Produkte -->
-      <a
-        [routerLink]="['/']"
-        routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: true }">
-
+      <a [routerLink]="['/products']" routerLinkActive="active-link">
         Produkte
       </a>
 
-      <!-- Versand -->
-      <a
-        [routerLink]="['/shipped-products']"
-        routerLinkActive="active-link">
-
+      <a [routerLink]="['/shipped-products']" routerLinkActive="active-link">
         Versendete Produkte
       </a>
 
-      <!-- Admin -->
       <a
         *ngIf="authApi.getUser()?.role === 'Admin'"
         [routerLink]="['/admin-users']"
         routerLinkActive="active-link">
-
         Admin
       </a>
 
-      <!-- Logout -->
-      <button
-        class="logout-btn"
-        (click)="logout()">
-
-        Logout
-      </button>
-
+      <button class="logout-btn" (click)="logout()">Logout</button>
     </div>
-
   </div>
 
   <router-outlet></router-outlet>
@@ -49,5 +31,4 @@
   <footer class="app-footer">
     Designed by Wael Zoudi
   </footer>
-
 </div>
