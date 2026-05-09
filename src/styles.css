@@ -18,3 +18,17 @@ body {
 * {
   box-sizing: border-box;
 }
+input,
+select,
+textarea {
+  border: 2px solid #9bb8e8 !important;
+  transition: 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+  outline: none;
+}

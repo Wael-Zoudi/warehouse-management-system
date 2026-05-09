@@ -1,80 +1,75 @@
-<div class="page-card">
+<div class="admin-page">
 
-  <h2>Benutzerverwaltung</h2>
+  <div class="admin-header">
+    <div>
+      <h2>Benutzerverwaltung</h2>
+      <p>Benutzer freigeben, Rollen verwalten und Konten löschen.</p>
+    </div>
+  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Benutzername</th>
-        <th>Rolle</th>
-        <th>Freigegeben</th>
-        <th>Aktionen</th>
-      </tr>
-    </thead>
+  <div class="users-table-wrapper">
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Benutzername</th>
+          <th>Rolle</th>
+          <th>Freigegeben</th>
+          <th>Aktionen</th>
+        </tr>
+      </thead>
 
-    <tbody>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
 
-      <tr *ngFor="let user of users">
+          <td class="username-cell">
+            {{ user.username }}
+          </td>
 
-        <td>{{ user.id }}</td>
+          <td>
+            <span class="role-pill" [class.role-admin]="user.role === 'Admin'">
+              {{ user.role }}
+            </span>
+          </td>
 
-        <td>{{ user.username }}</td>
+          <td>
+            <span *ngIf="user.isApproved" class="status-approved">
+              ✅ Ja
+            </span>
 
-        <td>
-          <span *ngIf="user.role === 'Admin'">
-            Admin
-          </span>
+            <span *ngIf="!user.isApproved" class="status-pending">
+              ❌ Nein
+            </span>
+          </td>
 
-          <span *ngIf="user.role !== 'Admin'">
-            User
-          </span>
-        </td>
+          <td>
+            <div class="action-buttons">
+              <button
+                class="btn btn-approve"
+                *ngIf="!user.isApproved"
+                (click)="approveUser(user)">
+                Freigeben
+              </button>
 
-        <td>
-          <span *ngIf="user.isApproved">
-            ✅ Ja
-          </span>
+              <button
+                class="btn btn-admin"
+                *ngIf="user.role !== 'Admin'"
+                (click)="makeAdmin(user)">
+                Admin machen
+              </button>
 
-          <span *ngIf="!user.isApproved">
-            ❌ Nein
-          </span>
-        </td>
-
-        <td class="actions">
-
-          <!-- Approve -->
-          <button
-            class="approve-btn"
-            *ngIf="!user.isApproved"
-            (click)="approveUser(user)">
-
-            Freigeben
-          </button>
-
-          <!-- Make Admin -->
-          <button
-            class="admin-btn"
-            *ngIf="user.role !== 'Admin'"
-            (click)="makeAdmin(user)">
-
-            Admin machen
-          </button>
-
-          <!-- Delete -->
-          <button
-            class="delete-btn"
-            *ngIf="user.role !== 'Admin'"
-            (click)="rejectUser(user)">
-
-            Löschen
-          </button>
-
-        </td>
-
-      </tr>
-
-    </tbody>
-  </table>
+              <button
+                class="btn btn-delete"
+                *ngIf="user.role !== 'Admin'"
+                (click)="rejectUser(user)">
+                Löschen
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 </div>

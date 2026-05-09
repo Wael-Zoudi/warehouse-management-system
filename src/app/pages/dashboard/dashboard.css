@@ -169,4 +169,12 @@ td {
     gap: 14px;
     flex-direction: column;
   }
+  .chart-panel {
+  min-height: 360px;
+}
+
+.chart-box {
+  height: 280px;
+  width: 100%;
+}
 }

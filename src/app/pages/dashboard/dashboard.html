@@ -53,21 +53,16 @@
   </div>
 
   <div class="dashboard-sections" *ngIf="!isLoading">
-    <div class="info-panel">
-      <h3>Lagerbestand Übersicht</h3>
+    <div class="info-panel chart-panel">
+      <h3>Lagerbestand Diagramm</h3>
 
-      <div class="bar-row" *ngFor="let product of topStockProducts">
-        <div class="bar-label">
-          <span>{{ product.name }}</span>
-          <strong>{{ product.quantity }}</strong>
-        </div>
-
-        <div class="bar-track">
-          <div
-            class="bar-fill"
-            [style.width.%]="getBarWidth(product.quantity)">
-          </div>
-        </div>
+      <div class="chart-box" *ngIf="topStockProducts.length > 0">
+        <canvas
+          baseChart
+          [data]="stockChartData"
+          [options]="chartOptions"
+          [type]="'bar'">
+        </canvas>
       </div>
 
       <p class="empty-text" *ngIf="topStockProducts.length === 0">
@@ -75,6 +70,25 @@
       </p>
     </div>
 
+    <div class="info-panel chart-panel">
+      <h3>Versandstatus</h3>
+
+      <div class="chart-box" *ngIf="shippedProducts.length > 0">
+        <canvas
+          baseChart
+          [data]="deliveryChartData"
+          [options]="chartOptions"
+          [type]="'doughnut'">
+        </canvas>
+      </div>
+
+      <p class="empty-text" *ngIf="shippedProducts.length === 0">
+        Keine Versanddaten vorhanden.
+      </p>
+    </div>
+  </div>
+
+  <div class="dashboard-sections" *ngIf="!isLoading">
     <div class="info-panel">
       <h3>Niedriger Bestand</h3>
 

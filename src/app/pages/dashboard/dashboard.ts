@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
+
 import {
   WarehouseApiService,
   Product,
@@ -13,7 +16,7 @@ import { AuthApiService } from '../../services/auth-api.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BaseChartDirective],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -23,6 +26,30 @@ export class Dashboard implements OnInit {
   users: AppUser[] = [];
 
   isLoading = true;
+
+  stockChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        label: 'Lagerbestand'
+      }
+    ]
+  };
+
+  deliveryChartData: ChartConfiguration<'doughnut'>['data'] = {
+    labels: ['Geliefert', 'Unterwegs'],
+    datasets: [
+      {
+        data: [0, 0]
+      }
+    ]
+  };
+
+  chartOptions: ChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false
+  };
 
   constructor(
     private api: WarehouseApiService,
@@ -39,6 +66,7 @@ export class Dashboard implements OnInit {
     this.api.getProducts().subscribe({
       next: (data) => {
         this.products = data;
+        this.updateStockChart();
         this.isLoading = false;
       },
       error: () => {
@@ -49,6 +77,7 @@ export class Dashboard implements OnInit {
     this.api.getShippedProducts().subscribe({
       next: (data) => {
         this.shippedProducts = data;
+        this.updateDeliveryChart();
       }
     });
 
@@ -59,6 +88,34 @@ export class Dashboard implements OnInit {
         }
       });
     }
+  }
+
+  updateStockChart(): void {
+    const topProducts = this.topStockProducts;
+
+    this.stockChartData = {
+      labels: topProducts.map(p => p.name),
+      datasets: [
+        {
+          data: topProducts.map(p => p.quantity),
+          label: 'Lagerbestand'
+        }
+      ]
+    };
+  }
+
+  updateDeliveryChart(): void {
+    const delivered = this.shippedProducts.filter(s => s.delivered).length;
+    const pending = this.shippedProducts.filter(s => !s.delivered).length;
+
+    this.deliveryChartData = {
+      labels: ['Geliefert', 'Unterwegs'],
+      datasets: [
+        {
+          data: [delivered, pending]
+        }
+      ]
+    };
   }
 
   get totalProducts(): number {
@@ -95,14 +152,5 @@ export class Dashboard implements OnInit {
     return [...this.products]
       .sort((a, b) => b.quantity - a.quantity)
       .slice(0, 6);
-  }
-
-  getMaxQuantity(): number {
-    const quantities = this.topStockProducts.map(p => p.quantity);
-    return quantities.length > 0 ? Math.max(...quantities) : 1;
-  }
-
-  getBarWidth(quantity: number): number {
-    return Math.max((quantity / this.getMaxQuantity()) * 100, 6);
   }
 }

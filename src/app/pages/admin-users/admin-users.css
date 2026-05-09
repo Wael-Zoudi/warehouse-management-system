@@ -1,0 +1,127 @@
+.admin-page {
+  background: rgba(255, 255, 255, 0.72);
+  padding: 28px;
+  border-radius: 24px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.admin-page h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  color: #17356a;
+  font-size: 32px;
+}
+
+.users-table-wrapper {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.users-table thead {
+  background: #20458f;
+  color: white;
+}
+
+.users-table th {
+  padding: 16px;
+  text-align: left;
+  font-size: 15px;
+}
+
+.users-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #243b63;
+  font-weight: 500;
+}
+
+.users-table tbody tr:hover {
+  background: #f4f8ff;
+}
+
+.status-approved {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.status-pending {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+  color: white;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-approve {
+  background: #16a34a;
+}
+
+.btn-admin {
+  background: #2563eb;
+}
+
+.btn-delete {
+  background: #dc2626;
+}
+
+@media (max-width: 900px) {
+  .users-table th,
+  .users-table td {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .admin-page h2 {
+    font-size: 26px;
+  }
+  .admin-header p {
+  margin-top: -14px;
+  margin-bottom: 24px;
+  color: #607089;
+}
+
+.username-cell {
+  font-weight: 800;
+  color: #17356a;
+}
+
+.role-pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #e0ecff;
+  color: #1d4ed8;
+  font-weight: 800;
+}
+
+.role-admin {
+  background: #dcfce7;
+  color: #15803d;
+}
+}
