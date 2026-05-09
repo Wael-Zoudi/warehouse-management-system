@@ -7,6 +7,8 @@ import {
   ShippedProduct
 } from '../../services/warehouse-api.service';
 
+import { ExcelService } from '../../services/excel.service';
+
 @Component({
   selector: 'app-shipped-products',
   standalone: true,
@@ -15,10 +17,14 @@ import {
   styleUrl: './shipped-products.css'
 })
 export class ShippedProducts implements OnInit {
+
   shippedProducts: ShippedProduct[] = [];
   searchText: string = '';
 
-  constructor(private api: WarehouseApiService) {}
+  constructor(
+    private api: WarehouseApiService,
+    private excelService: ExcelService
+  ) {}
 
   ngOnInit(): void {
     this.loadShippedProducts();
@@ -34,6 +40,25 @@ export class ShippedProducts implements OnInit {
         alert('Fehler beim Laden der versendeten Produkte.');
       }
     });
+  }
+
+  exportShippedProducts(): void {
+
+    const exportData = this.filteredShippedProducts.map(product => ({
+      ID: product.id,
+      Produktname: product.name,
+      Code: product.code,
+      AmazonNummer: product.amazonNumber,
+      Menge: product.quantity,
+      Versanddatum: product.shippedDate,
+      Sendungsnummer: product.shipmentNumber,
+      Geliefert: product.delivered ? 'Ja' : 'Nein'
+    }));
+
+    this.excelService.exportToExcel(
+      exportData,
+      'versendete-produkte'
+    );
   }
 
   get filteredShippedProducts(): ShippedProduct[] {
@@ -64,7 +89,9 @@ export class ShippedProducts implements OnInit {
   }
 
   deleteProduct(product: ShippedProduct): void {
-    const confirmed = confirm(`Möchten Sie den Versand von "${product.name}" löschen?`);
+    const confirmed = confirm(
+      `Möchten Sie den Versand von "${product.name}" löschen?`
+    );
 
     if (!confirmed) {
       return;

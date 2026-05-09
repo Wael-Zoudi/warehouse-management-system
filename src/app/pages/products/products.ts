@@ -8,6 +8,8 @@ import {
   CreateProduct
 } from '../../services/warehouse-api.service';
 
+import { ExcelService } from '../../services/excel.service';
+
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -39,7 +41,10 @@ export class Products implements OnInit {
     shipmentNumber: ''
   };
 
-  constructor(private api: WarehouseApiService) {}
+  constructor(
+    private api: WarehouseApiService,
+    private excelService: ExcelService
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -60,6 +65,19 @@ export class Products implements OnInit {
         this.showMessage('Fehler beim Laden der Produkte.');
       }
     });
+  }
+
+  exportProducts(): void {
+    const exportData = this.filteredProducts.map(product => ({
+      ID: product.id,
+      Produktname: product.name,
+      Code: product.code,
+      AmazonNummer: product.amazonNumber,
+      Menge: product.quantity,
+      Lagerort: product.storageLocation
+    }));
+
+    this.excelService.exportToExcel(exportData, 'produkte');
   }
 
   get filteredProducts(): Product[] {
