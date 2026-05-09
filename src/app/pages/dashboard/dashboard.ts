@@ -22,6 +22,8 @@ export class Dashboard implements OnInit {
   shippedProducts: ShippedProduct[] = [];
   users: AppUser[] = [];
 
+  isLoading = true;
+
   constructor(
     private api: WarehouseApiService,
     public authApi: AuthApiService
@@ -32,9 +34,15 @@ export class Dashboard implements OnInit {
   }
 
   loadDashboardData(): void {
+    this.isLoading = true;
+
     this.api.getProducts().subscribe({
       next: (data) => {
         this.products = data;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
       }
     });
 
@@ -75,5 +83,26 @@ export class Dashboard implements OnInit {
 
   get pendingUsers(): number {
     return this.users.filter(u => !u.isApproved).length;
+  }
+
+  get lowStockList(): Product[] {
+    return this.products
+      .filter(p => p.quantity <= 5)
+      .sort((a, b) => a.quantity - b.quantity);
+  }
+
+  get topStockProducts(): Product[] {
+    return [...this.products]
+      .sort((a, b) => b.quantity - a.quantity)
+      .slice(0, 6);
+  }
+
+  getMaxQuantity(): number {
+    const quantities = this.topStockProducts.map(p => p.quantity);
+    return quantities.length > 0 ? Math.max(...quantities) : 1;
+  }
+
+  getBarWidth(quantity: number): number {
+    return Math.max((quantity / this.getMaxQuantity()) * 100, 6);
   }
 }
