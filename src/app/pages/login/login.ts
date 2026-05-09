@@ -2,7 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthApiService } from '../../services/auth-api.service';
+
+import { ToastrService } from 'ngx-toastr';
+
+import {
+  AuthApiService,
+  AuthRequest
+} from '../../services/auth-api.service';
 
 @Component({
   selector: 'app-login',
@@ -14,44 +20,53 @@ import { AuthApiService } from '../../services/auth-api.service';
 export class Login {
   username = '';
   password = '';
+  isLoading = false;
 
   constructor(
     private authApi: AuthApiService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   login(): void {
     if (!this.username.trim() || !this.password.trim()) {
-      alert('Bitte Benutzername und Passwort eingeben.');
+      this.toastr.warning('Bitte Benutzername und Passwort eingeben.', 'Warnung');
       return;
     }
 
-    this.authApi.login({
+    this.isLoading = true;
+
+    const request: AuthRequest = {
       username: this.username.trim(),
       password: this.password
-    }).subscribe({
-      next: (user) => {
-        if (!user.isApproved) {
-          alert('Dein Konto wurde noch nicht freigegeben.');
-          return;
-        }
+    };
 
-        if (!user.token || user.token.trim() === '') {
-          alert('Fehler: Kein Token erhalten.');
-          return;
-        }
+    this.authApi.login(request).subscribe({
+      next: (user) => {
+        this.isLoading = false;
 
         this.authApi.saveUser(user);
+        this.toastr.success('Login erfolgreich.', 'Erfolg');
         this.router.navigate(['/']);
       },
-      error: (err) => {
-        console.error('LOGIN ERROR:', err);
 
-        if (err.error?.message === 'Account not approved yet.') {
-          alert('Dein Konto wurde noch nicht freigegeben.');
-        } else {
-          alert('Benutzername oder Passwort ist falsch.');
+      error: (err) => {
+        this.isLoading = false;
+
+        const backendMessage = err.error?.message;
+
+        if (backendMessage === 'Account not approved yet.') {
+          this.toastr.warning(
+            'Dein Konto wurde noch nicht vom Admin freigegeben.',
+            'Konto wartet auf Freigabe'
+          );
+          return;
         }
+
+        this.toastr.error(
+          'Benutzername oder Passwort ist falsch.',
+          'Login fehlgeschlagen'
+        );
       }
     });
   }
